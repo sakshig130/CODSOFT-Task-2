@@ -1,0 +1,56 @@
+import random
+import tkinter as tk
+
+class RockPaperScissors:
+    def __init__(self):
+        self.window = tk.Tk()
+        self.window.title("Rock Paper Scissors")
+        self.window.geometry("300x200")
+
+        self.score_user = 0
+        self.score_computer = 0
+
+        self.label = tk.Label(self.window, text="Welcome to Rock Paper Scissors!", font=("Arial", 16))
+        self.label.pack()
+
+        self.entry = tk.Entry(self.window, width=20)
+        self.entry.pack()
+
+        self.button = tk.Button(self.window, text="Play", command=self.play_game)
+        self.button.pack()
+
+        self.result_label = tk.Label(self.window, text="", font=("Arial", 12))
+        self.result_label.pack()
+
+        self.score_label = tk.Label(self.window, text="Score - You: 0, Computer: 0", font=("Arial", 12))
+        self.score_label.pack()
+
+    def play_game(self):
+        user_action = self.entry.get().lower()
+        if user_action not in ["rock", "paper", "scissors"]:
+            self.result_label.config(text="Invalid input. Please enter 'rock', 'paper', or 'scissors'.")
+            return
+
+        possible_actions = ["rock", "paper", "scissors"]
+        computer_action = random.choice(possible_actions)
+
+        if user_action == computer_action:
+            result = f"Both players selected {user_action}. It's a tie!"
+        elif (user_action == "rock" and computer_action == "scissors") or \
+             (user_action == "scissors" and computer_action == "paper") or \
+             (user_action == "paper" and computer_action == "rock"):
+            result = f"{user_action.capitalize()} beats {computer_action}! You win this round!"
+            self.score_user += 1
+        else:
+            result = f"{computer_action.capitalize()} beats {user_action}! Computer wins this round!"
+            self.score_computer += 1
+
+        self.result_label.config(text=result)
+        self.score_label.config(text=f"Score - You: {self.score_user}, Computer: {self.score_computer}")
+
+    def run(self):
+        self.window.mainloop()
+
+if __name__ == "__main__":
+    game = RockPaperScissors()
+    game.run()
